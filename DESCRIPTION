@@ -2,7 +2,7 @@ Package: mscstexta4r
 Type: Package
 Title: R Client for the Microsoft Cognitive Services Text Analytics
         REST API
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Phil", "Ferriere", email="pferriere@hotmail.com",
     role = c("aut", "cre"))
 Maintainer: Phil Ferriere <pferriere@hotmail.com>
@@ -17,7 +17,7 @@ URL: https://github.com/philferriere/mscstexta4r
 BugReports: http://www.github.com/philferriere/mscstexta4r/issues
 VignetteBuilder: knitr
 Imports: methods, httr, jsonlite, pander, stringi, dplyr, utils
-Suggests: knitr, rmarkdown, testthat
+Suggests: knitr, rmarkdown, testthat, mscsweblm4r
 SystemRequirements: A valid account MUST be registered with Microsoft's
         Cognitive Services website
         <https://www.microsoft.com/cognitive-services/> in order to
@@ -25,7 +25,7 @@ SystemRequirements: A valid account MUST be registered with Microsoft's
         not work properly.
 NeedsCompilation: no
 RoxygenNote: 5.0.1
-Packaged: 2016-06-14 05:38:19 UTC; Phil
+Packaged: 2016-06-20 08:43:55 UTC; Phil
 Author: Phil Ferriere [aut, cre]
 Repository: CRAN
-Date/Publication: 2016-06-14 08:32:22
+Date/Publication: 2016-06-20 12:29:44

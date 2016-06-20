@@ -4,13 +4,13 @@ June 2016
 
 [![Build Status](https://api.travis-ci.org/philferriere/mscstexta4r.png)](https://travis-ci.org/philferriere/mscstexta4r)
 [![codecov.io](https://codecov.io/github/philferriere/mscstexta4r/coverage.svg?branch=master)](https://codecov.io/github/philferriere/mscstexta4r?branch=master)
+[![CRAN Version](http://www.r-pkg.org/badges/version/mscstexta4r)](https://cran.r-project.org/package=mscstexta4r)
 
 [Microsoft Cognitive Services](https://www.microsoft.com/cognitive-services/en-us/documentation)
 -- formerly known as Project Oxford -- are a set of APIs, SDKs and services
 that developers can use to add [AI](https://en.wikipedia.org/wiki/Artificial_intelligence)
 features to their apps. Those features include emotion and video detection;
-facial, speech and vision recognition; and speech and natural language
-processing ([NLP](https://en.wikipedia.org/wiki/Natural_language_processing)).
+facial, speech and vision recognition; as well as speech and [NLP](https://en.wikipedia.org/wiki/Natural_language_processing).
 
 > Note: A test/demo Shiny web application is available [here](https://github.com/philferriere/mscsshiny).
 
@@ -18,7 +18,7 @@ processing ([NLP](https://en.wikipedia.org/wiki/Natural_language_processing)).
 
 Per Microsoft's website, the [Text Analytics REST API](https://www.microsoft.com/cognitive-services/en-us/text-analytics/documentation)
 is a suite of text analytics web services built with Azure Machine Learning that
-can be used to analyze unstructured text. The API supports four text analysis
+can be used to analyze unstructured text. The API supports the following
 operations:
 
 * Sentiment analysis - Is a sentence or document generally positive or negative?
@@ -53,18 +53,17 @@ correct. A total of 120 languages are supported.
 This API returns a list of strings denoting the key talking points in the input
 text. English, German, Spanish, and Japanese text are supported.
 
-To use the `{mscstexta4r}` R package, you **MUST** have a valid [account](https://www.microsoft.com/cognitive-services/en-us/pricing)
-with Microsoft Cognitive Services. Once you have an account, Microsoft will
-provide you with an [API key](https://en.wikipedia.org/wiki/Application_programming_interface_key).
-This key will be listed under your subscriptions.
-
-After you've configured `{mscstexta4r}` with your API key, you will be able to
-call the Text Analytics REST API from R, up to your maximum number of
-transactions per month and per minute.
-
 ## Package Installation
 
-You can either install the latest **stable** version from CRAN:
+To use the `{mscstexta4r}` R package, you **MUST** have a valid [account](https://www.microsoft.com/cognitive-services/en-us/pricing)
+with Microsoft Cognitive Services. Once you have an account, Microsoft will
+provide you with an [API key](https://en.wikipedia.org/wiki/Application_programming_interface_key)
+listed under your subscriptions. After you've configured `{mscstexta4r}` with
+your API key, you will be able to call the Text Analytics REST API from R, up
+to your maximum number of transactions per month and per minute.
+
+You can install the latest **stable** version of `{mscstexta4r}` from CRAN as
+follows:
 
 
 ```r
@@ -73,7 +72,7 @@ if ("mscstexta4r" %in% installed.packages()[,"Package"] == FALSE) {
 }
 ```
 
-Or, you can install the **development** version
+You can also install the **development** version using `{devtools}`:
 
 
 ```r
@@ -166,11 +165,12 @@ activating itself periodically and then going back to sleep, until the results
 have become available. In sleep mode, even though it appears "stuck",
 `textaDetectTopics()` doesn't use any CPU resources. While the function is
 operating in sleep mode, you *WILL NOT* be able to use the console before the
-function completes. If you need to operate the console while topic detection is
-being performed by the Microsoft Cognitive services servers, you should call
-`textaDetectTopics()` in asynchronous mode and then call
-`textaDetectTopicsStatus()` yourself repeatedly afterwards, until results are
-available.
+function completes. 
+
+If you need to operate the console while topic detection is being performed by
+the Microsoft Cognitive services servers, you should call `textaDetectTopics()`
+in asynchronous mode and then call `textaDetectTopicsStatus()` yourself
+repeatedly afterwards, until results are available.
 
 ## Package Configuration with Error Handling
 
@@ -367,7 +367,7 @@ tryCatch({
 })
 #> textatopics [https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/topics?]
 #> status: Succeeded
-#> operationId: add4d82003c84da897975f24f19a2698
+#> operationId: 88593cea74e840d7818035b3e1173e93
 #> operationType: topics
 #> topics (first 20):
 #> 
@@ -457,55 +457,7 @@ tryCatch({
   geterrmessage()
 
 })
-#> textatopics [https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/topics?]
-#> status: Succeeded
-#> operationId: b1c3a97a48bc43898d417c6d57ec8706
-#> operationType: topics
-#> topics (first 20):
-#> 
-#> -------------------
-#>  keyPhrase   score 
-#> ----------- -------
-#>    soup       19   
-#> 
-#>    beef       10   
-#> 
-#>    curry       8   
-#> 
-#>     egg        7   
-#> 
-#>   flavor       7   
-#> 
-#>    pork        7   
-#> 
-#>    China       6   
-#> 
-#>    roll        6   
-#> 
-#>   people       5   
-#> 
-#>   review       5   
-#> 
-#>   wontons      5   
-#> 
-#>    sushi       5   
-#> 
-#>  delivery      5   
-#> 
-#>    town        4   
-#> 
-#>   Phoenix      4   
-#> 
-#>    rolls       4   
-#> 
-#>   couple       4   
-#> 
-#>   tables       4   
-#> 
-#>   Buffet       4   
-#> 
-#>    yelp        3   
-#> -------------------
+# Same results as in synchronous mode
 ```
 
 ### Language Detection
@@ -514,9 +466,9 @@ tryCatch({
 ```r
 docsText = c(
   "The Louvre or the Louvre Museum is the world's largest museum.",
-  "Le musée du Louvre est un musée d'art et d'antiquités situé au centre de Paris.",
+  "Le musee du Louvre est un musee d'art et d'antiquites situe au centre de Paris.",
   "El Museo del Louvre es el museo nacional de Francia.",
-  "Il Museo del Louvre a Parigi, in Francia, è uno dei più celebri musei del mondo.",
+  "Il Museo del Louvre a Parigi, in Francia, e uno dei piu celebri musei del mondo.",
   "Der Louvre ist ein Museum in Paris."
 )
 
@@ -543,15 +495,15 @@ tryCatch({
 #> Museum is the world's largest                              
 #>            museum.                                         
 #> 
-#>   Le musée du Louvre est un   French       fr          1   
-#>  musée d'art et d'antiquités                               
-#>   situé au centre de Paris.                                
+#>   Le musee du Louvre est un   French       fr          1   
+#>  musee d'art et d'antiquites                               
+#>   situe au centre de Paris.                                
 #> 
 #>   El Museo del Louvre es el   Spanish      es          1   
 #>  museo nacional de Francia.                                
 #> 
 #> Il Museo del Louvre a Parigi, Italian      it          1   
-#>   in Francia, è uno dei più                                
+#>   in Francia, e uno dei piu                                
 #>   celebri musei del mondo.                                 
 #> 
 #> Der Louvre ist ein Museum in  German       de          1   
@@ -631,17 +583,19 @@ tryCatch({
 
 ## Credits
 
-All Microsoft Cognitive Services components are Copyright © Microsoft.
+All Microsoft Cognitive Services components are Copyright (c) Microsoft.
 
 For great introductions to the underlying REST API, please refer to [this](https://azure.microsoft.com/en-us/documentation/articles/cognitive-services-text-analytics-quick-start/)
 and [that](https://blogs.technet.microsoft.com/machinelearning/2015/04/08/introducing-text-analytics-in-the-azure-ml-marketplace/) link.
 
+## Related Microsoft Cognitive Services Packages
+
+`{mscsweblm4r}`, a R Client for the Microsoft Cognitive Services **Web Language
+Model** REST API, is also available on [CRAN](https://cran.r-project.org/package=mscsweblm4r)
+
 ## Meta
 
-This package is certainly functional. It's also the first time it is available
-on CRAN. Therefore, if you observe unexpected behaviors (a.k.a. bugs), please be
-kind enough to submit a bug report on GitHub (not via email) with a minimal
-reproducible example [here](https://github.com/philferriere/mscstexta4r/issues).
+Please report any issues or bugs [here](https://github.com/philferriere/mscstexta4r/issues).
 
 License: MIT + [file](./LICENSE)
 

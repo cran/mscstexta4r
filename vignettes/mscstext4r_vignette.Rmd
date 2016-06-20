@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 Per Microsoft's website, the [Text Analytics REST API](https://www.microsoft.com/cognitive-services/en-us/text-analytics/documentation)
 is a suite of text analytics web services built with Azure Machine Learning that
-can be used to analyze unstructured text. The API supports four text analysis
+can be used to analyze unstructured text. The API supports the following
 operations:
 
 * Sentiment analysis - Is a sentence or document generally positive or negative?
@@ -61,7 +61,15 @@ text. English, German, Spanish, and Japanese text are supported.
 
 ## Package Installation
 
-You can either install the latest **stable** version from CRAN:
+To use the `{mscstexta4r}` R package, you **MUST** have a valid [account](https://www.microsoft.com/cognitive-services/en-us/pricing)
+with Microsoft Cognitive Services. Once you have an account, Microsoft will
+provide you with an [API key](https://en.wikipedia.org/wiki/Application_programming_interface_key)
+listed under your subscriptions. After you've configured `{mscstexta4r}` with
+your API key, you will be able to call the Text Analytics REST API from R, up
+to your maximum number of transactions per month and per minute.
+
+You can install the latest **stable** version of `{mscstexta4r}` from CRAN as
+follows:
 
 ```{r eval=FALSE}
 if ("mscstexta4r" %in% installed.packages()[,"Package"] == FALSE) {
@@ -69,7 +77,7 @@ if ("mscstexta4r" %in% installed.packages()[,"Package"] == FALSE) {
 }
 ```
 
-Or, you can install the **development** version:
+You can also install the **development** version using `{devtools}`:
 
 ```{r eval=FALSE}
 if ("mscstexta4r" %in% installed.packages()[,"Package"] == FALSE) {
@@ -161,7 +169,9 @@ activating itself periodically and then going back to sleep, until the results
 have become available. In sleep mode, even though it appears "stuck",
 `textaDetectTopics()` doesn't use any CPU resources. While the function is
 operating in sleep mode, you *WILL NOT* be able to use the console before the
-function completes. If you need to operate the console while topic detection is
+function completes.
+
+If you need to operate the console while topic detection is
 being performed by the Microsoft Cognitive services servers, you should call
 `textaDetectTopics()` in asynchronous mode and then call
 `textaDetectTopicsStatus()` yourself repeatedly afterwards, until results are
@@ -171,7 +181,7 @@ available.
 
 Here's some sample code that illustrates how to use `tryCatch()`:
 
-```{r eval = FALSE}
+```{r}
 library('mscstexta4r')
 tryCatch({
 
@@ -259,7 +269,7 @@ refer to the [original documentation](https://www.microsoft.com/cognitive-servic
 
 ### Sentiment Analysis
 
-```{r eval = FALSE}
+```{r}
 docsText <- c(
   "Loved the food, service and atmosphere! We'll definitely be back.",
   "Very good food, reasonable prices, excellent service.",
@@ -293,7 +303,7 @@ tryCatch({
 
 ### Topic Detection (synchronous mode)
 
-```{r eval = FALSE}
+```{r}
 # Load yelpChReviews100 text reviews
 load("../tests/testthat/data/yelpChineseRestaurantReviews100.rda")
 
@@ -360,16 +370,17 @@ tryCatch({
   geterrmessage()
 
 })
+# Same results as in synchronous mode
 ```
 
 ### Language Detection
 
-```{r eval = FALSE}
+```{r}
 docsText = c(
   "The Louvre or the Louvre Museum is the world's largest museum.",
-  "Le musée du Louvre est un musée d'art et d'antiquités situé au centre de Paris.",
+  "Le musee du Louvre est un musee d'art et d'antiquites situe au centre de Paris.",
   "El Museo del Louvre es el museo nacional de Francia.",
-  "Il Museo del Louvre a Parigi, in Francia, è uno dei più celebri musei del mondo.",
+  "Il Museo del Louvre a Parigi, in Francia, e uno dei piu celebri musei del mondo.",
   "Der Louvre ist ein Museum in Paris."
 )
 
@@ -391,7 +402,7 @@ tryCatch({
 
 ### Key Talking Points Extraction
 
-```{r eval = FALSE}
+```{r}
 docsText <- c(
   "Loved the food, service and atmosphere! We'll definitely be back.",
   "Very good food, reasonable prices, excellent service.",
@@ -427,9 +438,14 @@ tryCatch({
 
 A test/demo Shiny web application is available [here](https://github.com/philferriere/mscsshiny)
 
+## Related Microsoft Cognitive Services Packages
+
+`{mscsweblm4r}`, a R Client for the Microsoft Cognitive Services **Web Language
+Model** REST API, is also available on [CRAN](https://cran.r-project.org/package=mscsweblm4r)
+
 ## Credits
 
-All Microsoft Cognitive Services components are Copyright © Microsoft.
+All Microsoft Cognitive Services components are Copyright (c) Microsoft.
 
 For great introductions to the underlying REST API, please refer to this [article](https://azure.microsoft.com/en-us/documentation/articles/cognitive-services-text-analytics-quick-start/)
 and this [blog post](https://blogs.technet.microsoft.com/machinelearning/2015/04/08/introducing-text-analytics-in-the-azure-ml-marketplace/).

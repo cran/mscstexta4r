@@ -75,7 +75,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <div id="whats-the-text-analytics-rest-api" class="section level2">
 <h2>What’s the Text Analytics REST API?</h2>
-<p>Per Microsoft’s website, the <a href="https://www.microsoft.com/cognitive-services/en-us/text-analytics/documentation">Text Analytics REST API</a> is a suite of text analytics web services built with Azure Machine Learning that can be used to analyze unstructured text. The API supports four text analysis operations:</p>
+<p>Per Microsoft’s website, the <a href="https://www.microsoft.com/cognitive-services/en-us/text-analytics/documentation">Text Analytics REST API</a> is a suite of text analytics web services built with Azure Machine Learning that can be used to analyze unstructured text. The API supports the following operations:</p>
 <ul>
 <li>Sentiment analysis - Is a sentence or document generally positive or negative?</li>
 <li>Topic detection - What’s being discussed across a list of documents/reviews/articles?</li>
@@ -101,11 +101,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="package-installation" class="section level2">
 <h2>Package Installation</h2>
-<p>You can either install the latest <strong>stable</strong> version from CRAN:</p>
+<p>To use the <code>{mscstexta4r}</code> R package, you <strong>MUST</strong> have a valid <a href="https://www.microsoft.com/cognitive-services/en-us/pricing">account</a> with Microsoft Cognitive Services. Once you have an account, Microsoft will provide you with an <a href="https://en.wikipedia.org/wiki/Application_programming_interface_key">API key</a> listed under your subscriptions. After you’ve configured <code>{mscstexta4r}</code> with your API key, you will be able to call the Text Analytics REST API from R, up to your maximum number of transactions per month and per minute.</p>
+<p>You can install the latest <strong>stable</strong> version of <code>{mscstexta4r}</code> from CRAN as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="st">&quot;mscstexta4r&quot;</span> %in%<span class="st"> </span><span class="kw">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>] ==<span class="st"> </span><span class="ot">FALSE</span>) {
   <span class="kw">install.packages</span>(<span class="st">&quot;mscstexta4r&quot;</span>)
 }</code></pre></div>
-<p>Or, you can install the <strong>development</strong> version:</p>
+<p>You can also install the <strong>development</strong> version using <code>{devtools}</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="st">&quot;mscstexta4r&quot;</span> %in%<span class="st"> </span><span class="kw">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>] ==<span class="st"> </span><span class="ot">FALSE</span>) {
   if (<span class="st">&quot;devtools&quot;</span> %in%<span class="st"> </span><span class="kw">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>] ==<span class="st"> </span><span class="ot">FALSE</span>) {
     <span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
@@ -144,7 +145,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="when-to-run-which-mode" class="section level3">
 <h3>When to Run Which Mode</h3>
 <p>If you’re performing topic detection in batch mode (from an R script), we recommend using the <code>textaDetectTopics()</code> in synchronous mode, in which case, again, it will return only after topic detection has completed.</p>
-<p>If you’re calling <code>textaDetectTopics()</code> in synchronous mode within the R console REPL (interactive mode), it will <strong>appear as if the console has hanged</strong>. This is <em>EXPECTED</em>. The function hasn’t crashed. It is simply in “sleep mode”, activating itself periodically and then going back to sleep, until the results have become available. In sleep mode, even though it appears “stuck”, <code>textaDetectTopics()</code> doesn’t use any CPU resources. While the function is operating in sleep mode, you <em>WILL NOT</em> be able to use the console before the function completes. If you need to operate the console while topic detection is being performed by the Microsoft Cognitive services servers, you should call <code>textaDetectTopics()</code> in asynchronous mode and then call <code>textaDetectTopicsStatus()</code> yourself repeatedly afterwards, until results are available.</p>
+<p>If you’re calling <code>textaDetectTopics()</code> in synchronous mode within the R console REPL (interactive mode), it will <strong>appear as if the console has hanged</strong>. This is <em>EXPECTED</em>. The function hasn’t crashed. It is simply in “sleep mode”, activating itself periodically and then going back to sleep, until the results have become available. In sleep mode, even though it appears “stuck”, <code>textaDetectTopics()</code> doesn’t use any CPU resources. While the function is operating in sleep mode, you <em>WILL NOT</em> be able to use the console before the function completes.</p>
+<p>If you need to operate the console while topic detection is being performed by the Microsoft Cognitive services servers, you should call <code>textaDetectTopics()</code> in asynchronous mode and then call <code>textaDetectTopicsStatus()</code> yourself repeatedly afterwards, until results are available.</p>
 </div>
 </div>
 <div id="package-configuration-with-error-handling" class="section level2">
@@ -231,7 +233,42 @@ docsLanguage &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
   <span class="co"># Print error</span>
   <span class="kw">geterrmessage</span>()
 
-})</code></pre></div>
+})
+<span class="co">#&gt; texta [https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; --------------------------------------</span>
+<span class="co">#&gt;              text               score </span>
+<span class="co">#&gt; ------------------------------ -------</span>
+<span class="co">#&gt;  Loved the food, service and   0.9847 </span>
+<span class="co">#&gt;  atmosphere! We'll definitely         </span>
+<span class="co">#&gt;            be back.                   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Very good food, reasonable   0.9831 </span>
+<span class="co">#&gt;   prices, excellent service.          </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   It was a great restaurant.   0.9306 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   If steak is what you want,   0.8014 </span>
+<span class="co">#&gt;       this is the place.              </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  The atmosphere is pretty bad  0.4998 </span>
+<span class="co">#&gt;  but the food is quite good.          </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; The food is quite good but the  0.475 </span>
+<span class="co">#&gt;   atmosphere is pretty bad.           </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   The food wasn't very good.   0.1877 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; I'm not sure I would come back 0.2857 </span>
+<span class="co">#&gt;      to this restaurant.              </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  While the food was good the   0.08727</span>
+<span class="co">#&gt; service was a disappointment.         </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  I was very disappointed with  0.01877</span>
+<span class="co">#&gt;    both the service and my            </span>
+<span class="co">#&gt;            entree.                    </span>
+<span class="co">#&gt; --------------------------------------</span></code></pre></div>
 </div>
 <div id="topic-detection-synchronous-mode" class="section level3">
 <h3>Topic Detection (synchronous mode)</h3>
@@ -257,7 +294,75 @@ docsLanguage &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
   <span class="co"># Print error</span>
   <span class="kw">geterrmessage</span>()
 
-})</code></pre></div>
+})
+<span class="co">#&gt; [Submitting topic detection operation...]</span>
+<span class="co">#&gt; [Sleeping for 1 s, timeout in 1200 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: NotStarted]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 1197 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 1137 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 1077 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 1017 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 957 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 897 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 837 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 776 s...]</span>
+<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Succeeded]</span>
+<span class="co">#&gt; textatopics [https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/topics?]</span>
+<span class="co">#&gt; status: Succeeded</span>
+<span class="co">#&gt; operationId: 84e74fee35fb4be48024a26a7267c104</span>
+<span class="co">#&gt; operationType: topics</span>
+<span class="co">#&gt; topics (first 20):</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -------------------</span>
+<span class="co">#&gt;  keyPhrase   score </span>
+<span class="co">#&gt; ----------- -------</span>
+<span class="co">#&gt;    soup       19   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    beef       10   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    curry       8   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     egg        7   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   flavor       7   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    pork        7   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    China       6   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    roll        6   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   people       5   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   review       5   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   wontons      5   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    sushi       5   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  delivery      5   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    town        4   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Phoenix      4   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    rolls       4   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   couple       4   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   tables       4   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Buffet       4   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    yelp        3   </span>
+<span class="co">#&gt; -------------------</span></code></pre></div>
 </div>
 <div id="topic-detection-asynchronous-mode" class="section level3">
 <h3>Topic Detection (asynchronous mode)</h3>
@@ -298,15 +403,16 @@ docsLanguage &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
   <span class="co"># Print error</span>
   <span class="kw">geterrmessage</span>()
 
-})</code></pre></div>
+})
+<span class="co"># Same results as in synchronous mode</span></code></pre></div>
 </div>
 <div id="language-detection-1" class="section level3">
 <h3>Language Detection</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">docsText =<span class="st"> </span><span class="kw">c</span>(
   <span class="st">&quot;The Louvre or the Louvre Museum is the world's largest museum.&quot;</span>,
-  <span class="st">&quot;Le musée du Louvre est un musée d'art et d'antiquités situé au centre de Paris.&quot;</span>,
+  <span class="st">&quot;Le musee du Louvre est un musee d'art et d'antiquites situe au centre de Paris.&quot;</span>,
   <span class="st">&quot;El Museo del Louvre es el museo nacional de Francia.&quot;</span>,
-  <span class="st">&quot;Il Museo del Louvre a Parigi, in Francia, è uno dei più celebri musei del mondo.&quot;</span>,
+  <span class="st">&quot;Il Museo del Louvre a Parigi, in Francia, e uno dei piu celebri musei del mondo.&quot;</span>,
   <span class="st">&quot;Der Louvre ist ein Museum in Paris.&quot;</span>
 )
 
@@ -323,7 +429,30 @@ docsLanguage &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
   <span class="co"># Print error</span>
   <span class="kw">geterrmessage</span>()
 
-})</code></pre></div>
+})
+<span class="co">#&gt; texta [https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/languages?numberOfLanguagesToDetect=1]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -----------------------------------------------------------</span>
+<span class="co">#&gt;             text               name    iso6391Name   score </span>
+<span class="co">#&gt; ----------------------------- ------- ------------- -------</span>
+<span class="co">#&gt;   The Louvre or the Louvre    English      en          1   </span>
+<span class="co">#&gt; Museum is the world's largest                              </span>
+<span class="co">#&gt;            museum.                                         </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Le musee du Louvre est un   French       fr          1   </span>
+<span class="co">#&gt;  musee d'art et d'antiquites                               </span>
+<span class="co">#&gt;   situe au centre de Paris.                                </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   El Museo del Louvre es el   Spanish      es          1   </span>
+<span class="co">#&gt;  museo nacional de Francia.                                </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Il Museo del Louvre a Parigi, Italian      it          1   </span>
+<span class="co">#&gt;   in Francia, e uno dei piu                                </span>
+<span class="co">#&gt;   celebri musei del mondo.                                 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Der Louvre ist ein Museum in  German       de          1   </span>
+<span class="co">#&gt;            Paris.                                          </span>
+<span class="co">#&gt; -----------------------------------------------------------</span></code></pre></div>
 </div>
 <div id="key-talking-points-extraction" class="section level3">
 <h3>Key Talking Points Extraction</h3>
@@ -355,16 +484,55 @@ docsLanguage &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
   <span class="co"># Print error</span>
   <span class="kw">geterrmessage</span>()
 
-})</code></pre></div>
+})
+<span class="co">#&gt; texta [https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -----------------------------------------------------------</span>
+<span class="co">#&gt;              text                       keyPhrases         </span>
+<span class="co">#&gt; ------------------------------ ----------------------------</span>
+<span class="co">#&gt;  Loved the food, service and    atmosphere, food, service  </span>
+<span class="co">#&gt;  atmosphere! We'll definitely                              </span>
+<span class="co">#&gt;            be back.                                        </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Very good food, reasonable   reasonable prices, good food</span>
+<span class="co">#&gt;   prices, excellent service.                               </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   It was a great restaurant.         great restaurant      </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   If steak is what you want,           steak, place        </span>
+<span class="co">#&gt;       this is the place.                                   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  The atmosphere is pretty bad        atmosphere, food      </span>
+<span class="co">#&gt;  but the food is quite good.                               </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; The food is quite good but the       food, atmosphere      </span>
+<span class="co">#&gt;   atmosphere is pretty bad.                                </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; I'm not sure I would come back          restaurant         </span>
+<span class="co">#&gt;      to this restaurant.                                   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   The food wasn't very good.               food            </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  While the food was good the          service, food        </span>
+<span class="co">#&gt; service was a disappointment.                              </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  I was very disappointed with        service, entree       </span>
+<span class="co">#&gt;    both the service and my                                 </span>
+<span class="co">#&gt;            entree.                                         </span>
+<span class="co">#&gt; -----------------------------------------------------------</span></code></pre></div>
 </div>
 </div>
 <div id="demo-application" class="section level2">
 <h2>Demo Application</h2>
 <p>A test/demo Shiny web application is available <a href="https://github.com/philferriere/mscsshiny">here</a></p>
 </div>
+<div id="related-microsoft-cognitive-services-packages" class="section level2">
+<h2>Related Microsoft Cognitive Services Packages</h2>
+<p><code>{mscsweblm4r}</code>, a R Client for the Microsoft Cognitive Services <strong>Web Language Model</strong> REST API, is also available on <a href="https://cran.r-project.org/package=mscsweblm4r">CRAN</a></p>
+</div>
 <div id="credits" class="section level2">
 <h2>Credits</h2>
-<p>All Microsoft Cognitive Services components are Copyright © Microsoft.</p>
+<p>All Microsoft Cognitive Services components are Copyright (c) Microsoft.</p>
 <p>For great introductions to the underlying REST API, please refer to this <a href="https://azure.microsoft.com/en-us/documentation/articles/cognitive-services-text-analytics-quick-start/">article</a> and this <a href="https://blogs.technet.microsoft.com/machinelearning/2015/04/08/introducing-text-analytics-in-the-azure-ml-marketplace/">blog post</a>.</p>
 </div>
 
