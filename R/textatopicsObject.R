@@ -6,7 +6,7 @@
 #' HTTP request:
 #'
 #' \itemize{
-#'   \item \code{status} the operation's current status ("NotStarted"|"Running"|"Succeeded")
+#'   \item \code{status} the operation's current status ("NotStarted"|"Running"|"Succeeded"|"Failed")
 #'   \item \code{documents} a \code{data.frame} with the documents and a unique
 #'   string ID for each
 #'   \item \code{topics} a \code{data.frame} with the identified topics, a
@@ -83,21 +83,48 @@ is.textatopics <- function(x) {
 #' @export
 print.textatopics <- function(x, ...) {
 
-  cat("textatopics [", x$originalRequest$url, "]\n", sep = "")
-  cat("status: ", x$status, "\n", sep = "")
-  cat("operationId: ", x$operationId, "\n", sep = "")
-  cat("operationType: ", x$operationType, "\n", sep = "")
-  aintNoVT100NoMo <- panderOptions("table.split.table")
-  panderOptions("table.split.table", getOption("width"))
-  if (exists("topics", where = x)) {
-    if (nrow(x$topics) > 20)
-      cat("topics (first 20):\n", sep = "")
-    else
-      cat("topics:\n", sep = "")
-    firstTopics <- utils::head(x$topics[with(x$topics, order(-score)),c(3,2)], 20)
-    row.names(firstTopics) <- NULL
-    pandoc.table(firstTopics)
+  if (exists("originalRequest", where = x)) {
+    if (!is.null(x$originalRequest)) {
+      if (exists("url", where = x$originalRequest)) {
+        if (!is.null(x$originalRequest$url)) {
+          cat("textatopics [", x$originalRequest$url, "]\n", sep = "")
+        }
+      }
+    }
   }
-  panderOptions("table.split.table", aintNoVT100NoMo)
 
+  if (exists("status", where = x)) {
+    if (!is.null(x$status)) {
+      cat("status: ", x$status, "\n", sep = "")
+    }
+  }
+
+  if (exists("operationId", where = x)) {
+    if (!is.null(x$operationId)) {
+      cat("operationId: ", x$operationId, "\n", sep = "")
+    }
+  }
+
+  if (exists("operationType", where = x)) {
+    if (!is.null(x$operationType)) {
+      cat("operationType: ", x$operationType, "\n", sep = "")
+    }
+  }
+
+  if (x$status == "Succeeded") {
+    if (exists("topics", where = x)) {
+      if (!is.null(x$topics)) {
+        aintNoVT100NoMo <- panderOptions("table.split.table")
+        panderOptions("table.split.table", getOption("width"))
+        if (nrow(x$topics) > 20)
+          cat("topics (first 20):\n", sep = "")
+        else
+          cat("topics:\n", sep = "")
+        firstTopics <- utils::head(x$topics[with(x$topics, order(-score)),c(3,2)], 20)
+        row.names(firstTopics) <- NULL
+        pandoc.table(firstTopics)
+        panderOptions("table.split.table", aintNoVT100NoMo)
+      }
+    }
+  }
 }

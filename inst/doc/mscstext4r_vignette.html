@@ -88,7 +88,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="topic-detection" class="section level3">
 <h3>Topic detection</h3>
-<p>This API returns the detected topics for a list of submitted text records. A topic is identified with a key phrase, which can be one or more related words. This API requires a minimum of 100 text records to be submitted, but is designed to detect topics across hundreds to thousands of records. The API is designed to work well for short, human-written text such as reviews and user feedback.</p>
+<p>This API returns the detected topics for a list of submitted text records. A topic is identified with a key phrase, which can be one or more related words. This API requires a minimum of 100 text records to be submitted, but is designed to detect topics across hundreds to thousands of records. The API is designed to work well for short, human-written text such as reviews and user feedback. English is the only language supported at this time.</p>
 </div>
 <div id="language-detection" class="section level3">
 <h3>Language detection</h3>
@@ -177,7 +177,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Detect top topics in group of documents</span>
 <span class="kw">textaDetectTopics</span>(
-  documents,                  <span class="co"># At least 100 documents</span>
+  documents,                  <span class="co"># At least 100 documents (English only)</span>
   <span class="dt">stopWords =</span> <span class="ot">NULL</span>,           <span class="co"># Stop word list (optional)</span>
   <span class="dt">topicsToExclude =</span> <span class="ot">NULL</span>,     <span class="co"># Topics to exclude (optional)</span>
   <span class="dt">minDocumentsPerWord =</span> <span class="ot">NULL</span>, <span class="co"># Threshold to exclude rare topics (optional)</span>
@@ -279,7 +279,7 @@ docsLanguage &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
 
   <span class="co"># Detect top topics</span>
   <span class="kw">textaDetectTopics</span>(
-    <span class="dt">documents =</span> yelpChReviews100, <span class="co"># At least 100 docs/sentences</span>
+    <span class="dt">documents =</span> yelpChReviews100, <span class="co"># At least 100 docs/sentences (English only)</span>
     <span class="dt">stopWords =</span> <span class="ot">NULL</span>,             <span class="co"># Stop word list (optional)</span>
     <span class="dt">topicsToExclude =</span> <span class="ot">NULL</span>,       <span class="co"># Topics to exclude (optional)</span>
     <span class="dt">minDocumentsPerWord =</span> <span class="ot">NULL</span>,   <span class="co"># Threshold to exclude rare topics (optional)</span>
@@ -296,27 +296,25 @@ docsLanguage &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
 
 })
 <span class="co">#&gt; [Submitting topic detection operation...]</span>
-<span class="co">#&gt; [Sleeping for 1 s, timeout in 1200 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: NotStarted]</span>
-<span class="co">#&gt; [Sleeping for 58 s, timeout in 1197 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
-<span class="co">#&gt; [Sleeping for 58 s, timeout in 1137 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
-<span class="co">#&gt; [Sleeping for 58 s, timeout in 1077 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
-<span class="co">#&gt; [Sleeping for 58 s, timeout in 1017 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
-<span class="co">#&gt; [Sleeping for 58 s, timeout in 957 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
-<span class="co">#&gt; [Sleeping for 58 s, timeout in 897 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
-<span class="co">#&gt; [Sleeping for 58 s, timeout in 837 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Running]</span>
-<span class="co">#&gt; [Sleeping for 58 s, timeout in 776 s...]</span>
-<span class="co">#&gt; [operationId: 84e74fee35fb4be48024a26a7267c104, status: Succeeded]</span>
+<span class="co">#&gt; [Sleeping for 59 s, timeout in 1199 s...]</span>
+<span class="co">#&gt; [operationId: 4a2896f976a047aca349728b8b8ab96a, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 1138 s...]</span>
+<span class="co">#&gt; [operationId: 4a2896f976a047aca349728b8b8ab96a, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 1078 s...]</span>
+<span class="co">#&gt; [operationId: 4a2896f976a047aca349728b8b8ab96a, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 57 s, timeout in 1017 s...]</span>
+<span class="co">#&gt; [operationId: 4a2896f976a047aca349728b8b8ab96a, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 958 s...]</span>
+<span class="co">#&gt; [operationId: 4a2896f976a047aca349728b8b8ab96a, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 898 s...]</span>
+<span class="co">#&gt; [operationId: 4a2896f976a047aca349728b8b8ab96a, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 838 s...]</span>
+<span class="co">#&gt; [operationId: 4a2896f976a047aca349728b8b8ab96a, status: Running]</span>
+<span class="co">#&gt; [Sleeping for 58 s, timeout in 778 s...]</span>
+<span class="co">#&gt; [operationId: 4a2896f976a047aca349728b8b8ab96a, status: Succeeded]</span>
 <span class="co">#&gt; textatopics [https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/topics?]</span>
 <span class="co">#&gt; status: Succeeded</span>
-<span class="co">#&gt; operationId: 84e74fee35fb4be48024a26a7267c104</span>
+<span class="co">#&gt; operationId: 4a2896f976a047aca349728b8b8ab96a</span>
 <span class="co">#&gt; operationType: topics</span>
 <span class="co">#&gt; topics (first 20):</span>
 <span class="co">#&gt; </span>
@@ -373,7 +371,7 @@ docsLanguage &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
 
   <span class="co"># Detect top topics</span>
   operation &lt;-<span class="st"> </span><span class="kw">textaDetectTopics</span>(
-    <span class="dt">documents =</span> yelpChReviews100, <span class="co"># At least 100 docs/sentences</span>
+    <span class="dt">documents =</span> yelpChReviews100, <span class="co"># At least 100 docs/sentences (English only)</span>
     <span class="dt">resultsPollInterval =</span> 0L,     <span class="co"># Poll interval (in s, default: 30s, use 0L for async)</span>
     <span class="dt">verbose =</span> <span class="ot">TRUE</span>                <span class="co"># If set to TRUE, print every poll status to stdout</span>
   )

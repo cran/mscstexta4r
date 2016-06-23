@@ -48,7 +48,7 @@ tryCatch({
 ## ----eval = FALSE--------------------------------------------------------
 #  # Detect top topics in group of documents
 #  textaDetectTopics(
-#    documents,                  # At least 100 documents
+#    documents,                  # At least 100 documents (English only)
 #    stopWords = NULL,           # Stop word list (optional)
 #    topicsToExclude = NULL,     # Topics to exclude (optional)
 #    minDocumentsPerWord = NULL, # Threshold to exclude rare topics (optional)
@@ -112,7 +112,7 @@ tryCatch({
 
   # Detect top topics
   textaDetectTopics(
-    documents = yelpChReviews100, # At least 100 docs/sentences
+    documents = yelpChReviews100, # At least 100 docs/sentences (English only)
     stopWords = NULL,             # Stop word list (optional)
     topicsToExclude = NULL,       # Topics to exclude (optional)
     minDocumentsPerWord = NULL,   # Threshold to exclude rare topics (optional)
@@ -137,7 +137,7 @@ tryCatch({
 #  
 #    # Detect top topics
 #    operation <- textaDetectTopics(
-#      documents = yelpChReviews100, # At least 100 docs/sentences
+#      documents = yelpChReviews100, # At least 100 docs/sentences (English only)
 #      resultsPollInterval = 0L,     # Poll interval (in s, default: 30s, use 0L for async)
 #      verbose = TRUE                # If set to TRUE, print every poll status to stdout
 #    )

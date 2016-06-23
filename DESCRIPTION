@@ -2,7 +2,7 @@ Package: mscstexta4r
 Type: Package
 Title: R Client for the Microsoft Cognitive Services Text Analytics
         REST API
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: person("Phil", "Ferriere", email="pferriere@hotmail.com",
     role = c("aut", "cre"))
 Maintainer: Phil Ferriere <pferriere@hotmail.com>
@@ -25,7 +25,7 @@ SystemRequirements: A valid account MUST be registered with Microsoft's
         not work properly.
 NeedsCompilation: no
 RoxygenNote: 5.0.1
-Packaged: 2016-06-20 08:43:55 UTC; Phil
+Packaged: 2016-06-22 19:05:58 UTC; Phil
 Author: Phil Ferriere [aut, cre]
 Repository: CRAN
-Date/Publication: 2016-06-20 12:29:44
+Date/Publication: 2016-06-23 00:52:35
